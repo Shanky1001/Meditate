@@ -3,6 +3,7 @@ import {createStackNavigator} from "@react-navigation/stack";
 import BottomNavigation from "./BottomNavigation";
 import {createDrawerNavigator, DrawerContentScrollView} from "@react-navigation/drawer";
 import {Text, View} from "react-native";
+import {ThemedText, ThemedView} from "../theme/Themed";
 
 const Stack = createStackNavigator();
 
@@ -19,9 +20,9 @@ const Drawer = createDrawerNavigator();
 function DrawerNavigation() {
   const renderDrawer = () => (
     <DrawerContentScrollView>
-      <View style={{flex: 1, height: 80}}>
-        <Text style={{}}>hello</Text>
-      </View>
+      <ThemedView style={{flex: 1, height: 80}}>
+        <ThemedText style={{color: "red"}}>hello</ThemedText>
+      </ThemedView>
     </DrawerContentScrollView>
   );
   return (

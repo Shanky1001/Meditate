@@ -7,6 +7,7 @@ import Setting from "../screens/settings/Setting";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import {DrawerActions} from "@react-navigation/native";
 import {useTheme} from "react-native-paper";
+import {ThemedText, ThemedView} from "../theme/Themed";
 
 const BottomTab = createBottomTabNavigator();
 export default function BottomNavigation() {
@@ -58,9 +59,7 @@ function CustomHeader({navigation}: BottomTabHeaderProps) {
       <TouchableOpacity onPress={onClick}>
         <TabBarIcon name="menu" color="#FFFFFF" />
       </TouchableOpacity>
-      <View>
-        <Text style={styles.headerText}>Hello</Text>
-      </View>
+      <ThemedText style={styles.headerText}>Hello</ThemedText>
     </View>
   );
 }
@@ -76,7 +75,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   headerText: {
-    color: "#FFFFFF",
     fontSize: 18,
   },
 });
