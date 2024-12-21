@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
 import React from "react";
 import {BottomTabHeaderProps, createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import Home from "../screens/home/Home";
@@ -6,11 +6,14 @@ import Statistics from "../screens/stats/Statistics";
 import Setting from "../screens/settings/Setting";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import {DrawerActions} from "@react-navigation/native";
-import {useTheme} from "react-native-paper";
+import {ThemedText, ThemedView, useThemeColor} from "../theme/Themed";
+import Colors from "../constants/Colors";
 
 const BottomTab = createBottomTabNavigator();
 export default function BottomNavigation() {
   const renderHeader = (props: BottomTabHeaderProps) => <CustomHeader {...props} />;
+  const activeColor = useThemeColor({}, "purple500");
+  const inactiveColor = useThemeColor({}, "primary");
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -19,6 +22,8 @@ export default function BottomNavigation() {
         tabBarHideOnKeyboard: true,
         headerShown: true,
         tabBarShowLabel: false,
+        tabBarActiveTintColor: activeColor,
+        tabBarInactiveTintColor: inactiveColor,
       }}>
       <BottomTab.Screen
         name="Home"
@@ -54,14 +59,12 @@ function CustomHeader({navigation}: BottomTabHeaderProps) {
     navigation.dispatch(DrawerActions.toggleDrawer());
   };
   return (
-    <View style={styles.headerContainer}>
+    <ThemedView style={styles.headerContainer}>
       <TouchableOpacity onPress={onClick}>
-        <TabBarIcon name="menu" color="#FFFFFF" />
+        <TabBarIcon name="menu" color={Colors.light.gray900} />
       </TouchableOpacity>
-      <View>
-        <Text style={styles.headerText}>Hello</Text>
-      </View>
-    </View>
+      <ThemedText style={styles.headerText}>Hello</ThemedText>
+    </ThemedView>
   );
 }
 
@@ -71,12 +74,11 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#4A6D92",
+    backgroundColor: Colors.light.primary,
     gap: 8,
     paddingLeft: 10,
   },
   headerText: {
-    color: "#FFFFFF",
     fontSize: 18,
   },
 });

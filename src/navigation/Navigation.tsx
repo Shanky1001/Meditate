@@ -1,11 +1,18 @@
-import {StatusBar, StyleSheet, Text, View} from "react-native";
-import React from "react";
-import {NavigationContainer} from "@react-navigation/native";
+import {StyleSheet} from "react-native";
+import React, {useEffect, useState} from "react";
+import {DarkTheme, DefaultTheme, NavigationContainer} from "@react-navigation/native";
 import RootNavigation from "./RootNavigation";
+import useColorScheme from "../hooks/useColorScheme";
 
 export default function Navigation() {
+  const [theme, setTheme] = useState(DefaultTheme);
+  const colorScheme = useColorScheme();
+
+  useEffect(() => {
+    setTheme(colorScheme === "dark" ? DarkTheme : DefaultTheme);
+  }, [colorScheme]);
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={theme}>
       <RootNavigation />
     </NavigationContainer>
   );
