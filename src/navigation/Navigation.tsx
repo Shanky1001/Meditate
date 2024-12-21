@@ -6,7 +6,6 @@ import RootNavigation from "./RootNavigation";
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <StatusBar translucent />
       <RootNavigation />
     </NavigationContainer>
   );
