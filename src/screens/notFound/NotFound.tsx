@@ -1,11 +1,12 @@
 import {StyleSheet, Text, View} from "react-native";
 import React from "react";
+import ScreenWrapper from "../ScreenWrapper";
 
 export default function NotFound() {
   return (
-    <View>
+    <ScreenWrapper>
       <Text>NotFound</Text>
-    </View>
+    </ScreenWrapper>
   );
 }
 
