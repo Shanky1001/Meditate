@@ -1,7 +1,7 @@
 import React from "react";
 import {StatusBar} from "react-native";
-import Navigation from "./src/navigation/Navigation";
 import RootProvider from "./src/Providers/RootProvider";
+import Navigation from "./src/navigation";
 
 function App(): React.JSX.Element {
   return (
