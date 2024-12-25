@@ -1,13 +1,16 @@
 import {StyleSheet, Text, View} from "react-native";
 import React from "react";
 import ScreenWrapper from "../ScreenWrapper";
+import {ThemedText} from "../../theme/Themed";
 
-export default function Home() {
+const PlayScreen = () => {
   return (
-    <ScreenWrapper scroll>
-      <Text>Home</Text>
+    <ScreenWrapper>
+      <ThemedText>PlayScreen</ThemedText>
     </ScreenWrapper>
   );
-}
+};
+
+export default PlayScreen;
 
 const styles = StyleSheet.create({});
