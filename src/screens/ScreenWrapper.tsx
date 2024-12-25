@@ -19,7 +19,7 @@ const ScreenWrapper: React.FC<Props> = ({scroll, style, children}) => {
       {children}
     </ScrollView>
   ) : (
-    <ThemedView testID="screen-view" style={style}>
+    <ThemedView testID="screen-view" style={[styles.container, {backgroundColor}, style]}>
       {children}
     </ThemedView>
   );

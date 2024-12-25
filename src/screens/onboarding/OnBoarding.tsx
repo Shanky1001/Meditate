@@ -4,11 +4,10 @@ import MButton from "../../components/MButton";
 import {ThemedText, ThemedView} from "../../theme/Themed";
 import {OnboardingImage} from "../../../assets";
 import Colors from "../../constants/Colors";
+import Screens from "../../constants/Screens";
 
 const OnBoarding = ({navigation: {navigate}}: any) => {
-  //   const {height} = Dimensions.get("window");
-
-  const handlePress = () => navigate("Root");
+  const handlePress = () => navigate(Screens.Root);
   return (
     <ImageBackground source={OnboardingImage} resizeMode="cover" style={styles.bgImage}>
       <ThemedView style={styles.container}>
