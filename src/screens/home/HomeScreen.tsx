@@ -5,7 +5,7 @@ import {ThemedText} from "../../theme/Themed";
 import {GetMeditationData} from "../../Providers/ContextProvider";
 import {Meditation, MeditationItem} from "../../constants/data/meditations";
 import {StackNavigationProp} from "@react-navigation/stack";
-import MCard from "../../components/MCard";
+import MCard from "../../components/common/MCard";
 import {HomeParamList} from "../../../types";
 import Screens from "../../constants/Screens";
 

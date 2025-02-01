@@ -1,9 +1,9 @@
 import {StyleSheet} from "react-native";
 import React from "react";
-import {useThemeColor} from "../theme/Themed";
+import {useThemeColor} from "../../theme/Themed";
 import {Card, MD3Elevation, Paragraph} from "react-native-paper";
-import {Meditation} from "../constants/data/meditations";
-import Colors from "../constants/Colors";
+import {Meditation} from "../../constants/data/meditations";
+import Colors from "../../constants/Colors";
 
 interface MCardProps {
   item: Meditation;

@@ -8,6 +8,9 @@ export type RootStackParamList = {
 };
 
 export type MainStackParamList = {
+  [Screens.Root.Profile]: NO_PARAMS;
+  [Screens.Root.Setting]: NO_PARAMS;
+  [Screens.Root.Support]: NO_PARAMS;
   [Screens.Root.Drawer.index]: NO_PARAMS;
 };
 
