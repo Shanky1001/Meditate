@@ -1,5 +1,5 @@
 import {ImageSourcePropType} from "react-native";
-import {Meditation1, Meditation2, Meditation3, Meditation4, Meditation5, Rocks, Sleep1, Sleep2, Tea} from "../../assets";
+import {Meditation1, Meditation2, Meditation3, Meditation4, Meditation5, Rocks, Sleep1, Sleep2, Tea} from "../../../assets";
 
 export interface Meditation {
   /* Unique id of the meditation */

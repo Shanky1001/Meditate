@@ -6,8 +6,10 @@ import Navigation from "./src/navigation";
 function App(): React.JSX.Element {
   return (
     <RootProvider>
-      <StatusBar />
-      <Navigation />
+      <>
+        <StatusBar />
+        <Navigation />
+      </>
     </RootProvider>
   );
 }

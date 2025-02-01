@@ -10,7 +10,7 @@ export default function Navigation() {
 
   useEffect(() => {
     setTheme(colorScheme === "dark" ? DarkTheme : DefaultTheme);
-  }, [colorScheme]);
+  }, [useColorScheme]);
   return (
     <NavigationContainer theme={theme}>
       <RootNavigation />

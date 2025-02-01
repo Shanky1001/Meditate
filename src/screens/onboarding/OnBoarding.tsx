@@ -1,19 +1,18 @@
 import {ImageBackground, StyleSheet, View} from "react-native";
 import React from "react";
-import MButton from "../../components/MButton";
+import MButton from "../../components/common/MButton";
 import {ThemedText, ThemedView} from "../../theme/Themed";
 import {OnboardingImage} from "../../../assets";
 import Colors from "../../constants/Colors";
+import Screens from "../../constants/Screens";
 
 const OnBoarding = ({navigation: {navigate}}: any) => {
-  //   const {height} = Dimensions.get("window");
-
-  const handlePress = () => navigate("Root");
+  const handlePress = () => navigate(Screens.Root.index);
   return (
     <ImageBackground source={OnboardingImage} resizeMode="cover" style={styles.bgImage}>
       <ThemedView style={styles.container}>
         <View>
-          <ThemedText style={styles.txt}>Stay healthy even if you stay at home</ThemedText>
+          <ThemedText style={styles.txtHeading}>Stay healthy even if you stay at home</ThemedText>
           <ThemedText style={styles.txt}>Staying fit to keep you in good condition can now be as easy as going through mobile apps</ThemedText>
         </View>
         <MButton onPress={handlePress}>
@@ -39,11 +38,18 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "80%",
     margin: "auto",
-    top: "90%",
+    top: "85%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     display: "flex",
     gap: 26,
+  },
+  txtHeading: {
+    textAlign: "center",
+    color: Colors.light.gray100,
+    fontSize: 18,
+    fontWeight: 800,
+    marginBottom: 8,
   },
   txt: {
     textAlign: "center",

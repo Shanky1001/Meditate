@@ -1,22 +1,26 @@
-import {StyleSheet, TouchableOpacity, View} from "react-native";
+import {StyleSheet, TouchableOpacity} from "react-native";
 import React from "react";
 import {BottomTabHeaderProps, createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import Home from "../screens/home/Home";
 import Statistics from "../screens/stats/Statistics";
 import Setting from "../screens/settings/Setting";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import {DrawerActions} from "@react-navigation/native";
 import {ThemedText, ThemedView, useThemeColor} from "../theme/Themed";
 import Colors from "../constants/Colors";
+import {createStackNavigator} from "@react-navigation/stack";
+import {BottomTabParamList, HomeParamList} from "../../types";
+import HomeScreen from "../screens/home/HomeScreen";
+import PlayScreen from "../screens/home/PlayScreen";
+import Screens from "../constants/Screens";
 
-const BottomTab = createBottomTabNavigator();
+const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomNavigation() {
   const renderHeader = (props: BottomTabHeaderProps) => <CustomHeader {...props} />;
   const activeColor = useThemeColor({}, "purple500");
   const inactiveColor = useThemeColor({}, "primary");
   return (
     <BottomTab.Navigator
-      initialRouteName="Home"
+      initialRouteName={Screens.Root.Drawer.BottomNavigation.Home.index}
       screenOptions={{
         header: renderHeader,
         tabBarHideOnKeyboard: true,
@@ -26,21 +30,21 @@ export default function BottomNavigation() {
         tabBarInactiveTintColor: inactiveColor,
       }}>
       <BottomTab.Screen
-        name="Home"
-        component={Home}
+        name={Screens.Root.Drawer.BottomNavigation.Home.index}
+        component={HomeNavigator}
         options={{
           tabBarIcon: ({color}) => <TabBarIcon name="home" color={color} />,
         }}
       />
       <BottomTab.Screen
-        name="Stats"
+        name={Screens.Root.Drawer.BottomNavigation.Stats}
         component={Statistics}
         options={{
           tabBarIcon: ({color}) => <TabBarIcon name="calendar-month" color={color} />,
         }}
       />
       <BottomTab.Screen
-        name="Settings"
+        name={Screens.Root.Drawer.BottomNavigation.Setting}
         component={Setting}
         options={{
           tabBarIcon: ({color}) => <TabBarIcon name="settings" color={color} />,
@@ -63,10 +67,23 @@ function CustomHeader({navigation}: BottomTabHeaderProps) {
       <TouchableOpacity onPress={onClick}>
         <TabBarIcon name="menu" color={Colors.light.gray900} />
       </TouchableOpacity>
-      <ThemedText style={styles.headerText}>Hello</ThemedText>
+      <ThemedText style={styles.headerText}>Meditate</ThemedText>
     </ThemedView>
   );
 }
+
+const HomeScreens = createStackNavigator<HomeParamList>();
+
+const HomeNavigator = () => {
+  return (
+    <HomeScreens.Navigator screenOptions={{headerShown: false}}>
+      <HomeScreens.Group>
+        <HomeScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Home.HomeScreen} component={HomeScreen} />
+        <HomeScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Home.PlayScreen} component={PlayScreen} />
+      </HomeScreens.Group>
+    </HomeScreens.Navigator>
+  );
+};
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -80,5 +97,13 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 18,
+  },
+  headerTitle: {
+    fontWeight: "600",
+    color: Colors.light.white,
+    fontSize: 16,
+  },
+  header: {
+    backgroundColor: Colors.light.primary,
   },
 });

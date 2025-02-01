@@ -2,10 +2,10 @@ import {StyleSheet, Text, View} from "react-native";
 import React from "react";
 import ScreenWrapper from "../ScreenWrapper";
 
-export default function Home() {
+export default function Support() {
   return (
     <ScreenWrapper scroll>
-      <Text>Home</Text>
+      <Text>Support</Text>
     </ScreenWrapper>
   );
 }
