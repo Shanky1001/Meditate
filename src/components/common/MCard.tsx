@@ -1,18 +1,25 @@
-import {StyleSheet} from "react-native";
+import {Pressable, StyleSheet} from "react-native";
 import React from "react";
 import {useThemeColor} from "../../theme/Themed";
 import {Card, MD3Elevation, Paragraph} from "react-native-paper";
 import {Meditation} from "../../constants/data/meditations";
 import Colors from "../../constants/Colors";
+import MIcon from "./MIcon";
+import {useDispatch} from "react-redux";
+import {updateFavorites} from "../../redux/slices/meditationSlice";
 
 interface MCardProps {
   item: Meditation;
   elevation?: MD3Elevation;
   onPress: () => void;
+  isFav?: boolean;
 }
-const MCard = ({item, elevation, onPress}: MCardProps) => {
+const MCard = ({item, isFav, elevation, onPress}: MCardProps) => {
   const textColor = useThemeColor({}, "text");
-
+  const dispatch = useDispatch();
+  const handleFav = () => {
+    dispatch(updateFavorites(item));
+  };
   return (
     <Card elevation={elevation} style={styles.card} onPress={onPress}>
       <Card.Cover style={[styles.cardImage, styles.popularImage]} source={item.image} />
@@ -24,7 +31,9 @@ const MCard = ({item, elevation, onPress}: MCardProps) => {
       />
       <Card.Content style={styles.cardContent}>
         <Paragraph style={styles.cardParagraph}>{item.time} minutes</Paragraph>
-        {/* <DownloadButton id={item.id} style={styles.downloadButton} /> */}
+        <Pressable onPress={handleFav}>
+          <MIcon family="FontAwesome" name={isFav ? "heart" : "heart-o"} size={20} color={isFav ? "red" : undefined} />
+        </Pressable>
       </Card.Content>
     </Card>
   );

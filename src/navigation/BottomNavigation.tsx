@@ -12,6 +12,8 @@ import {BottomTabParamList, HomeParamList} from "../../types";
 import HomeScreen from "../screens/home/HomeScreen";
 import PlayScreen from "../screens/home/PlayScreen";
 import Screens from "../constants/Screens";
+import ContextProvider from "../Providers/ContextProvider";
+import MIcon from "../components/common/MIcon";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomNavigation() {
@@ -33,31 +35,26 @@ export default function BottomNavigation() {
         name={Screens.Root.Drawer.BottomNavigation.Home.index}
         component={HomeNavigator}
         options={{
-          tabBarIcon: ({color}) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({color}) => <MIcon family="MaterialIcons" name="home" color={color} />,
         }}
       />
       <BottomTab.Screen
         name={Screens.Root.Drawer.BottomNavigation.Stats}
         component={Statistics}
         options={{
-          tabBarIcon: ({color}) => <TabBarIcon name="calendar-month" color={color} />,
+          tabBarIcon: ({color}) => <MIcon family="MaterialIcons" name="calendar-month" color={color} />,
         }}
       />
       <BottomTab.Screen
         name={Screens.Root.Drawer.BottomNavigation.Setting}
         component={Setting}
         options={{
-          tabBarIcon: ({color}) => <TabBarIcon name="settings" color={color} />,
+          tabBarIcon: ({color}) => <MIcon family="MaterialIcons" name="settings" color={color} />,
         }}
       />
     </BottomTab.Navigator>
   );
 }
-
-function TabBarIcon(props: {name: React.ComponentProps<typeof Icon>["name"]; color: string}) {
-  return <Icon size={25} {...props} />;
-}
-
 function CustomHeader({navigation}: BottomTabHeaderProps) {
   const onClick = () => {
     navigation.dispatch(DrawerActions.toggleDrawer());
@@ -65,7 +62,7 @@ function CustomHeader({navigation}: BottomTabHeaderProps) {
   return (
     <ThemedView style={styles.headerContainer}>
       <TouchableOpacity onPress={onClick}>
-        <TabBarIcon name="menu" color={Colors.light.gray900} />
+        <MIcon family="MaterialIcons" name="menu" color={Colors.light.gray900} />
       </TouchableOpacity>
       <ThemedText style={styles.headerText}>Meditate</ThemedText>
     </ThemedView>
@@ -76,12 +73,14 @@ const HomeScreens = createStackNavigator<HomeParamList>();
 
 const HomeNavigator = () => {
   return (
-    <HomeScreens.Navigator screenOptions={{headerShown: false}}>
-      <HomeScreens.Group>
-        <HomeScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Home.HomeScreen} component={HomeScreen} />
-        <HomeScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Home.PlayScreen} component={PlayScreen} />
-      </HomeScreens.Group>
-    </HomeScreens.Navigator>
+    <ContextProvider>
+      <HomeScreens.Navigator screenOptions={{headerShown: false}}>
+        <HomeScreens.Group>
+          <HomeScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Home.HomeScreen} component={HomeScreen} />
+          <HomeScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Home.PlayScreen} component={PlayScreen} />
+        </HomeScreens.Group>
+      </HomeScreens.Navigator>
+    </ContextProvider>
   );
 };
 
