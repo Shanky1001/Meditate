@@ -15,7 +15,10 @@ const Screens = {
           PlayScreen: "PlayScreen",
         },
         Stats: "Stats",
-        Setting: "Setting",
+        Setting: {
+          index: "Setting",
+          AboutUS: "AboutUs",
+        },
       },
     },
   },

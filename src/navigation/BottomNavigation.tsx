@@ -7,7 +7,7 @@ import {DrawerActions} from "@react-navigation/native";
 import {ThemedText, ThemedView, useThemeColor} from "../theme/Themed";
 import Colors from "../constants/Colors";
 import {createStackNavigator} from "@react-navigation/stack";
-import {BottomTabParamList, HomeParamList} from "../../types";
+import {BottomTabParamList, HomeParamList, SettingParamList} from "../../types";
 import HomeScreen from "../screens/home/HomeScreen";
 import PlayScreen from "../screens/home/PlayScreen";
 import Screens from "../constants/Screens";
@@ -45,7 +45,7 @@ export default function BottomNavigation() {
         }}
       />
       <BottomTab.Screen
-        name={Screens.Root.Drawer.BottomNavigation.Setting}
+        name={Screens.Root.Drawer.BottomNavigation.Setting.index}
         component={Setting}
         options={{
           tabBarIcon: ({color}) => <MIcon family="MaterialIcons" name="settings" color={color} />,
@@ -80,6 +80,16 @@ const HomeNavigator = () => {
         </HomeScreens.Group>
       </HomeScreens.Navigator>
     </ContextProvider>
+  );
+};
+
+const SettingScreens = createStackNavigator<SettingParamList>();
+const SettingNavigator = () => {
+  return (
+    <SettingScreens.Navigator screenOptions={{headerShown: false}}>
+      <SettingScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Setting.index} component={Setting} />
+      {/* <SettingScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Setting.AboutUS} component={AboutUs} /> */}
+    </SettingScreens.Navigator>
   );
 };
 

@@ -9,5 +9,6 @@ const Rocks = require("./images/rocks.jpg");
 const Tea = require("./images/tea.jpg");
 const Sleep1 = require("./images/sleep.jpg");
 const Sleep2 = require("./images/sleep2.jpg");
+const Logo = require("./images/logo.png");
 
-export {OnboardingImage, Meditation1, Meditation2, Meditation3, Meditation4, Meditation5, Meditation6, Rocks, Tea, Sleep1, Sleep2};
+export {Logo, OnboardingImage, Meditation1, Meditation2, Meditation3, Meditation4, Meditation5, Meditation6, Rocks, Tea, Sleep1, Sleep2};

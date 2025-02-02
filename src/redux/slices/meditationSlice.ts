@@ -77,10 +77,13 @@ const meditationSlice = createSlice({
         author,
       };
     },
+    clearData: state => {
+      state = {...initialState};
+    },
   },
 });
 
-export const {updateFavorites, updateManualEntry, updateTodayQuote} = meditationSlice.actions;
+export const {updateFavorites, updateManualEntry, updateTodayQuote, clearData} = meditationSlice.actions;
 export default meditationSlice.reducer;
 
 export const selectFavorite = (state: RootState) => state[name].favorites;
@@ -99,11 +102,5 @@ export const selectCalendar = (state: RootState) => {
     };
     return acc;
   }, {});
-  // Object.keys(activity).forEach(k => {
-  //   const date = dayjs(parseInt(k, 10)).format("YYYY-MM-DD");
-  //   calendar[date] = {
-  //     selected: true,
-  //   };
-  // });
   return calendar;
 };
