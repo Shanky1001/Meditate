@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectActivity, updateManualEntry} from "../../redux/slices/meditationSlice";
 import {MS_PER_MINUTE} from "../../utils";
 import MButton from "../common/MButton";
+import {ThemedText} from "../../theme/Themed";
 
 interface Props {
   timestamp?: number;
@@ -58,16 +59,20 @@ const ManualEntry = ({timestamp, onDismiss}: Props) => {
     <Provider>
       <Portal>
         <Dialog visible={visible} onDismiss={onDismiss}>
-          <Dialog.Title>Manual Entry</Dialog.Title>
+          <Dialog.Title>
+            <ThemedText>Manual Entry</ThemedText>
+          </Dialog.Title>
           <Dialog.Content>
-            <Paragraph>Enter how long you meditated for</Paragraph>
+            <Paragraph>
+              <ThemedText>Enter how long you meditated for</ThemedText>
+            </Paragraph>
             <TextInput
               testID="input"
               key={defaultValue}
               autoFocus
               defaultValue={defaultValue}
               keyboardType="number-pad"
-              label="Time in minutes"
+              label={<ThemedText>Time in minutes</ThemedText>}
               maxLength={3}
               onChangeText={onChangeText}
               onSubmitEditing={onSubmit}
@@ -75,11 +80,11 @@ const ManualEntry = ({timestamp, onDismiss}: Props) => {
             />
           </Dialog.Content>
           <Dialog.Actions>
-            <Button testID="cancel-btn" onPress={onDismiss}>
-              Cancel
-            </Button>
+            <MButton variant="text" onPress={onDismiss}>
+              <ThemedText>Cancel</ThemedText>
+            </MButton>
             <MButton variant="contained" disabled={duration < 0} onPress={onSubmit}>
-              Submit
+              <ThemedText>Submit</ThemedText>
             </MButton>
           </Dialog.Actions>
         </Dialog>

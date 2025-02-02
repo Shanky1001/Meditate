@@ -9,12 +9,16 @@ import {clearData} from "../../redux/slices/meditationSlice";
 import {Logo} from "../../../assets";
 import {ThemedText, ThemedView} from "../../theme/Themed";
 import {openUrl} from "../../utils";
+import ThemeSelector from "../../components/themeToggle/ThemeToggle";
+import {useColorScheme} from "../../hooks/useColorScheme";
+import MButton from "../../components/common/MButton";
 
 interface SettingProps {
   navigation: StackNavigationProp<SettingParamList, "Setting">;
 }
 export default function Setting({navigation}: SettingProps) {
   const dispatch = useDispatch();
+  const {colorScheme, setColorScheme} = useColorScheme();
   const resetData = () => {
     Alert.alert("Clear Data", "Are you sure you want to delete your data? All your stats will be reset. This cannot be undone.", [
       {
@@ -43,9 +47,23 @@ export default function Setting({navigation}: SettingProps) {
   return (
     <ScreenWrapper scroll>
       <Image source={Logo} style={styles.logo} />
-      <List.Section title="Settings" style={styles.section}>
-        <List.Item title="Clear Data" onPress={resetData} style={styles.item} />
-        <List.Section title="About Us">
+      <List.Section style={styles.section}>
+        <List.Subheader>
+          <ThemedText>Settings</ThemedText>
+        </List.Subheader>
+        <ThemeSelector currentTheme={colorScheme} onThemeChange={async theme => await setColorScheme(theme)} />
+        <List.Item
+          title={
+            <MButton variant="contained" onPress={resetData}>
+              <ThemedText>Clear Data</ThemedText>
+            </MButton>
+          }
+          style={styles.item}
+        />
+        <List.Section>
+          <List.Subheader>
+            <ThemedText>About Us</ThemedText>
+          </List.Subheader>
           <List.Item title={Title} style={styles.item} />
         </List.Section>
       </List.Section>
@@ -68,6 +86,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   item: {
-    paddingLeft: 10,
+    paddingLeft: 20,
   },
 });

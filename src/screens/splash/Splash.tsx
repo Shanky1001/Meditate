@@ -1,23 +1,24 @@
 import React, {useEffect} from "react";
-import {StyleSheet, View, Animated, Dimensions} from "react-native";
-import {ThemedText} from "../../theme/Themed";
+import {StyleSheet, Animated} from "react-native";
+import {ThemedText, ThemedView, useThemeColor} from "../../theme/Themed";
 import MIcon from "../../components/common/MIcon";
-import {useDispatch} from "react-redux";
-import {useQuote} from "../../hooks/useQuote";
-import {updateTodayQuote} from "../../redux/slices/meditationSlice";
-import {getDimensions} from "../../utils";
+import {useSelector} from "react-redux";
+import {selectTodayQuote} from "../../redux/slices/meditationSlice";
 
-export default function SplashScreen() {
+interface SplashProps {
+  onAnimationComplete: () => void;
+}
+const SPLASH_DURATION = 4000;
+export default function SplashScreen({onAnimationComplete}: SplashProps) {
   const logoOpacity = new Animated.Value(0);
   const logoTranslate = new Animated.Value(50);
   const quoteOpacity = new Animated.Value(0);
-
-  const dispatch = useDispatch();
-  const {quote, author} = useQuote();
+  const {quote, author} = useSelector(selectTodayQuote);
+  const IconColor = useThemeColor({}, "primary");
 
   useEffect(() => {
-    dispatch(updateTodayQuote({quote, author}));
-    Animated.sequence([
+    // Animation sequence
+    const splashAnimation = Animated.sequence([
       Animated.parallel([
         Animated.timing(logoOpacity, {
           toValue: 1,
@@ -36,11 +37,22 @@ export default function SplashScreen() {
         delay: 200,
         useNativeDriver: true,
       }),
-    ]).start();
-  }, []);
+    ]);
+
+    // Start animation and call completion handler
+    splashAnimation.start(() => {
+      setTimeout(() => {
+        onAnimationComplete();
+      }, SPLASH_DURATION);
+    });
+
+    return () => {
+      splashAnimation.stop();
+    };
+  }, [onAnimationComplete]);
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <Animated.View
         style={[
           styles.logoContainer,
@@ -49,7 +61,7 @@ export default function SplashScreen() {
             transform: [{translateY: logoTranslate}],
           },
         ]}>
-        <MIcon family="MaterialIcons" name="self-improvement" size={80} color="#6B4EFF" />
+        <MIcon family="MaterialIcons" name="self-improvement" size={80} color={IconColor} />
         <ThemedText style={styles.title}>Meditate</ThemedText>
       </Animated.View>
 
@@ -63,7 +75,7 @@ export default function SplashScreen() {
         <ThemedText style={styles.quote}>{quote}</ThemedText>
         <ThemedText style={styles.author}>- {author}</ThemedText>
       </Animated.View>
-    </View>
+    </ThemedView>
   );
 }
 
@@ -72,20 +84,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FFFFFF",
     paddingHorizontal: 32,
   },
   logoContainer: {
     alignItems: "center",
+    marginBottom: 48,
+  },
+  quoteContainer: {
+    alignItems: "center",
+    maxWidth: "80%",
   },
   title: {
     fontSize: 32,
     fontWeight: "bold",
     marginTop: 16,
-  },
-  quoteContainer: {
-    alignItems: "center",
-    maxWidth: getDimensions().width * 0.8,
   },
   quote: {
     fontSize: 16,
@@ -93,11 +105,9 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     lineHeight: 24,
     marginBottom: 12,
-    color: "#666666",
   },
   author: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#888888",
   },
 });

@@ -58,12 +58,15 @@ function CustomHeader({navigation}: BottomTabHeaderProps) {
   const onClick = () => {
     navigation.dispatch(DrawerActions.toggleDrawer());
   };
+  const IconColor = useThemeColor({}, "gray900");
   return (
     <ThemedView style={styles.headerContainer}>
       <TouchableOpacity onPress={onClick}>
-        <MIcon family="MaterialIcons" name="menu" color={Colors.light.gray900} />
+        <MIcon family="MaterialIcons" name="menu" color={IconColor} />
       </TouchableOpacity>
-      <ThemedText style={styles.headerText}>Meditate</ThemedText>
+      <ThemedText darkColor={IconColor} lightColor={IconColor} style={styles.headerText}>
+        Meditate
+      </ThemedText>
     </ThemedView>
   );
 }

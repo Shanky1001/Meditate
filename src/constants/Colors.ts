@@ -30,7 +30,7 @@ export default {
   },
   dark: {
     primary,
-    text: grays.white,
+    text: grays.gray100,
     background: grays.gray900,
     tint: primary,
     tabIconDefault: "#A1C6EA",

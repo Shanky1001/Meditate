@@ -1,7 +1,7 @@
 import {ScrollView, StyleSheet, View} from "react-native";
 import React, {useState} from "react";
 import ScreenWrapper from "../ScreenWrapper";
-import {useThemeColor} from "../../theme/Themed";
+import {ThemedText, useThemeColor} from "../../theme/Themed";
 import {Card, Paragraph, Title} from "react-native-paper";
 import MIcon from "../../components/common/MIcon";
 import {getPlural} from "../../utils";
@@ -13,6 +13,7 @@ import {selectTodayQuote} from "../../redux/slices/meditationSlice";
 
 export default function Statistics() {
   const primary = useThemeColor({}, "primary");
+  const bgColor = useThemeColor({}, "background");
   const [manualEntryTime, setManualEntryTime] = useState<number>();
   const {quote, author} = useSelector(selectTodayQuote);
   const streak = 10;
@@ -29,38 +30,50 @@ export default function Statistics() {
     <>
       <ScreenWrapper scroll>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.container}>
-          <Card style={styles.card}>
+          <Card elevation={1} style={[styles.card, {backgroundColor: bgColor}]}>
             <Card.Content style={styles.cardContent}>
               <MIcon name="trophy" family="FontAwesome5" size={24} color={primary} style={styles.icon} />
-              <Paragraph>Current Streak</Paragraph>
+              <Paragraph><ThemedText>Current Streak</ThemedText></Paragraph>
               <Title>
-                {streak} {getPlural(streak, "day")}
+                <ThemedText>{streak} {getPlural(streak, "day")}</ThemedText>
               </Title>
             </Card.Content>
           </Card>
-          <Card style={styles.card}>
+          <Card elevation={1} style={[styles.card, {backgroundColor: bgColor}]}>
             <Card.Content style={styles.cardContent}>
               <MIcon family="FontAwesome5" name="calendar" style={styles.icon} size={24} color={primary} />
-              <Paragraph>Total Sessions</Paragraph>
+              <Paragraph>
+                <ThemedText>Total Sessions</ThemedText>
+              </Paragraph>
               <Title>
-                {totalSessions} {getPlural(totalSessions, "session")}
+                <ThemedText>
+                  {totalSessions} {getPlural(totalSessions, "session")}
+                </ThemedText>
               </Title>
             </Card.Content>
           </Card>
-          <Card style={styles.card}>
+          <Card elevation={1} style={[styles.card, {backgroundColor: bgColor}]}>
             <Card.Content style={styles.cardContent}>
               <MIcon family="FontAwesome5" name="clock" style={styles.icon} size={24} color={primary} />
-              <Paragraph>Time Meditated</Paragraph>
-              <Title>{listenedStat}</Title>
+              <Paragraph>
+                <ThemedText>Time Meditated</ThemedText>
+              </Paragraph>
+              <Title>
+                <ThemedText>{listenedStat}</ThemedText>
+              </Title>
             </Card.Content>
           </Card>
         </ScrollView>
         <Calendar key={manualEntryTime} onDayPress={handleManualEntry} />
         <View style={styles.quoteContainer}>
-          <Card style={styles.quoteCard}>
+          <Card elevation={1} style={[styles.quoteCard, {backgroundColor: bgColor}]}>
             <Card.Content style={styles.cardContent}>
-              <Title style={styles.quoteTitle}>"{quote}"</Title>
-              <Paragraph style={styles.quoteAuthor}>~{author}</Paragraph>
+              <Title style={styles.quoteTitle}>
+                <ThemedText>"{quote}"</ThemedText>
+              </Title>
+              <Paragraph style={styles.quoteAuthor}>
+                <ThemedText>~{author}</ThemedText>
+              </Paragraph>
             </Card.Content>
           </Card>
         </View>

@@ -12,7 +12,8 @@ interface Props {
 }
 
 const MButton: React.FC<Props> = ({style, children, textStyle, variant = "contained", disabled, onPress}) => {
-  const bgColor = useThemeColor({}, "purple900");
+  const bgColor = useThemeColor({}, "primary");
+  const textColor = useThemeColor({}, "text");
   const getButtonStyle = () => {
     switch (variant) {
       case "contained":
@@ -38,11 +39,11 @@ const MButton: React.FC<Props> = ({style, children, textStyle, variant = "contai
       case "contained":
       case "capsule":
         return {
-          color: disabled ? "#666666" : "#FFFFFF",
+          color: disabled ? "#666666" : textColor,
         };
       case "text":
         return {
-          color: disabled ? "#666666" : bgColor,
+          color: disabled ? "#666666" : textColor,
         };
     }
   };

@@ -1,9 +1,8 @@
 import {Pressable, StyleSheet} from "react-native";
 import React from "react";
-import {useThemeColor} from "../../theme/Themed";
+import {ThemedText, useThemeColor} from "../../theme/Themed";
 import {Card, MD3Elevation, Paragraph} from "react-native-paper";
 import {Meditation} from "../../constants/data/meditations";
-import Colors from "../../constants/Colors";
 import MIcon from "./MIcon";
 import {useDispatch} from "react-redux";
 import {updateFavorites} from "../../redux/slices/meditationSlice";
@@ -16,23 +15,26 @@ interface MCardProps {
 }
 const MCard = ({item, isFav, elevation, onPress}: MCardProps) => {
   const textColor = useThemeColor({}, "text");
+  const bgColor = useThemeColor({}, "background");
   const dispatch = useDispatch();
   const handleFav = () => {
     dispatch(updateFavorites(item));
   };
   return (
-    <Card elevation={elevation} style={styles.card} onPress={onPress}>
+    <Card elevation={elevation} style={[styles.card, {backgroundColor: bgColor}]} onPress={onPress}>
       <Card.Cover style={[styles.cardImage, styles.popularImage]} source={item.image} />
       <Card.Title
         titleStyle={[styles.cardTitle, {color: textColor}]}
         subtitleStyle={styles.cardSubtitle}
-        title={item.title}
-        subtitle={item.subtitle}
+        title={<ThemedText>{item.title}</ThemedText>}
+        subtitle={<ThemedText>{item.subtitle}</ThemedText>}
       />
       <Card.Content style={styles.cardContent}>
-        <Paragraph style={styles.cardParagraph}>{item.time} minutes</Paragraph>
+        <Paragraph style={styles.cardParagraph}>
+          <ThemedText>{item.time} minutes</ThemedText>
+        </Paragraph>
         <Pressable onPress={handleFav}>
-          <MIcon family="FontAwesome" name={isFav ? "heart" : "heart-o"} size={20} color={isFav ? "red" : undefined} />
+          <MIcon family="FontAwesome" name={isFav ? "heart" : "heart-o"} size={20} color={isFav ? "red" : textColor} />
         </Pressable>
       </Card.Content>
     </Card>
@@ -63,15 +65,11 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   cardSubtitle: {
-    color: Colors.light.gray800,
+    // color: Colors.light.gray800,
     fontSize: 14,
   },
   cardParagraph: {
-    color: Colors.light.purple900,
+    // color: Colors.light.purple900,
     fontWeight: "600",
-  },
-  downloadButton: {
-    position: "relative",
-    top: -6,
   },
 });

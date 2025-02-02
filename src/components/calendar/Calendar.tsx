@@ -41,7 +41,7 @@ export default function Calendar({onDayPress}: {onDayPress: (value: DateData) =>
     };
   }, [white, primary, textColor]);
 
-  return <RNCalendar style={styles.calendar} markedDates={markedDates} onDayPress={onDayPress} theme={CalendarTheme} maxDate={today} />;
+  return <RNCalendar style={[styles.calendar, {backgroundColor: white}]} markedDates={markedDates} onDayPress={onDayPress} theme={CalendarTheme} maxDate={today} />;
 }
 
 const styles = StyleSheet.create({
