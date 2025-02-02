@@ -15,9 +15,9 @@ export default function MainNavigation() {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={Screens.Root.Drawer.index}>
       <Stack.Screen name={Screens.Root.Drawer.index} component={DrawerNavigation} />
-      <Stack.Screen name={Screens.Root.Profile} component={Profile} />
-      <Stack.Screen name={Screens.Root.Setting} component={Setting} />
-      <Stack.Screen name={Screens.Root.Support} component={Support} />
+      <Stack.Screen name={Screens.Root.Profile} component={Profile} options={{headerShown: true}} />
+      <Stack.Screen name={Screens.Root.Setting} component={Setting} options={{headerShown: true}} />
+      <Stack.Screen name={Screens.Root.Support} component={Support} options={{headerShown: true}} />
     </Stack.Navigator>
   );
 }

@@ -3,15 +3,16 @@ import React from "react";
 import {BottomTabHeaderProps, createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import Statistics from "../screens/stats/Statistics";
 import Setting from "../screens/settings/Setting";
-import Icon from "react-native-vector-icons/MaterialIcons";
 import {DrawerActions} from "@react-navigation/native";
 import {ThemedText, ThemedView, useThemeColor} from "../theme/Themed";
 import Colors from "../constants/Colors";
 import {createStackNavigator} from "@react-navigation/stack";
-import {BottomTabParamList, HomeParamList} from "../../types";
+import {BottomTabParamList, HomeParamList, SettingParamList} from "../../types";
 import HomeScreen from "../screens/home/HomeScreen";
 import PlayScreen from "../screens/home/PlayScreen";
 import Screens from "../constants/Screens";
+import ContextProvider from "../Providers/ContextProvider";
+import MIcon from "../components/common/MIcon";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomNavigation() {
@@ -33,41 +34,39 @@ export default function BottomNavigation() {
         name={Screens.Root.Drawer.BottomNavigation.Home.index}
         component={HomeNavigator}
         options={{
-          tabBarIcon: ({color}) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({color}) => <MIcon family="MaterialIcons" name="home" color={color} />,
         }}
       />
       <BottomTab.Screen
         name={Screens.Root.Drawer.BottomNavigation.Stats}
         component={Statistics}
         options={{
-          tabBarIcon: ({color}) => <TabBarIcon name="calendar-month" color={color} />,
+          tabBarIcon: ({color}) => <MIcon family="MaterialIcons" name="calendar-month" color={color} />,
         }}
       />
       <BottomTab.Screen
-        name={Screens.Root.Drawer.BottomNavigation.Setting}
+        name={Screens.Root.Drawer.BottomNavigation.Setting.index}
         component={Setting}
         options={{
-          tabBarIcon: ({color}) => <TabBarIcon name="settings" color={color} />,
+          tabBarIcon: ({color}) => <MIcon family="MaterialIcons" name="settings" color={color} />,
         }}
       />
     </BottomTab.Navigator>
   );
 }
-
-function TabBarIcon(props: {name: React.ComponentProps<typeof Icon>["name"]; color: string}) {
-  return <Icon size={25} {...props} />;
-}
-
 function CustomHeader({navigation}: BottomTabHeaderProps) {
   const onClick = () => {
     navigation.dispatch(DrawerActions.toggleDrawer());
   };
+  const IconColor = useThemeColor({}, "gray900");
   return (
     <ThemedView style={styles.headerContainer}>
       <TouchableOpacity onPress={onClick}>
-        <TabBarIcon name="menu" color={Colors.light.gray900} />
+        <MIcon family="MaterialIcons" name="menu" color={IconColor} />
       </TouchableOpacity>
-      <ThemedText style={styles.headerText}>Meditate</ThemedText>
+      <ThemedText darkColor={IconColor} lightColor={IconColor} style={styles.headerText}>
+        Meditate
+      </ThemedText>
     </ThemedView>
   );
 }
@@ -76,12 +75,24 @@ const HomeScreens = createStackNavigator<HomeParamList>();
 
 const HomeNavigator = () => {
   return (
-    <HomeScreens.Navigator screenOptions={{headerShown: false}}>
-      <HomeScreens.Group>
-        <HomeScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Home.HomeScreen} component={HomeScreen} />
-        <HomeScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Home.PlayScreen} component={PlayScreen} />
-      </HomeScreens.Group>
-    </HomeScreens.Navigator>
+    <ContextProvider>
+      <HomeScreens.Navigator screenOptions={{headerShown: false}}>
+        <HomeScreens.Group>
+          <HomeScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Home.HomeScreen} component={HomeScreen} />
+          <HomeScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Home.PlayScreen} component={PlayScreen} />
+        </HomeScreens.Group>
+      </HomeScreens.Navigator>
+    </ContextProvider>
+  );
+};
+
+const SettingScreens = createStackNavigator<SettingParamList>();
+const SettingNavigator = () => {
+  return (
+    <SettingScreens.Navigator screenOptions={{headerShown: false}}>
+      <SettingScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Setting.index} component={Setting} />
+      {/* <SettingScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Setting.AboutUS} component={AboutUs} /> */}
+    </SettingScreens.Navigator>
   );
 };
 

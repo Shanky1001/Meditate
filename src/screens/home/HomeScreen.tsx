@@ -8,19 +8,23 @@ import {StackNavigationProp} from "@react-navigation/stack";
 import MCard from "../../components/common/MCard";
 import {HomeParamList} from "../../../types";
 import Screens from "../../constants/Screens";
+import {useSelector} from "react-redux";
+import {selectFavorite} from "../../redux/slices/meditationSlice";
 
 interface HomeProps {
   navigation: StackNavigationProp<HomeParamList, "HomeScreen">;
 }
 export default function HomeScreen({navigation}: HomeProps) {
   const {popular, anxiety, sleep} = GetMeditationData();
+  const Favorites = useSelector(selectFavorite);
   const handlePress = (item: Meditation) => {
     navigation.navigate(Screens.Root.Drawer.BottomNavigation.Home.PlayScreen, {
       id: item.id,
     });
   };
   const renderCard = ({item}: MeditationItem) => {
-    return <MCard item={item} onPress={() => handlePress(item)} />;
+    const isFav = Favorites.some(fav => fav.id === item.id);
+    return <MCard item={item} isFav={isFav} onPress={() => handlePress(item)} />;
   };
   return (
     <ScreenWrapper scroll>
@@ -51,6 +55,19 @@ export default function HomeScreen({navigation}: HomeProps) {
         renderItem={renderCard}
         keyExtractor={({id}) => id}
       />
+      {Favorites.length > 0 && (
+        <>
+          <ThemedText style={styles.title}>Favorites</ThemedText>
+          <FlatList
+            style={styles.cards}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={Favorites}
+            renderItem={renderCard}
+            keyExtractor={({id}) => id}
+          />
+        </>
+      )}
     </ScreenWrapper>
   );
 }

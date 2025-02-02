@@ -1,4 +1,4 @@
-import {Pressable, StyleSheet, View} from "react-native";
+import {Alert, Pressable, StyleSheet, View} from "react-native";
 import React from "react";
 import {DrawerContentComponentProps, DrawerContentScrollView} from "@react-navigation/drawer";
 import {ThemedText, ThemedView, useThemeColor} from "../../theme/Themed";
@@ -12,7 +12,18 @@ export default function DrawerView(props: DrawerContentComponentProps) {
   const color = useThemeColor({}, "white");
   const UserName = "Shashank Rai";
   const handleLogout = () => {
-    console.log("Logout");
+    Alert.alert("Logout", "Are you sure you want to logout?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Logout",
+        onPress: () => {
+          console.log("Logout");
+        },
+      },
+    ]);
   };
   return (
     <View style={[style.drawerContainer, {backgroundColor: color}]}>
