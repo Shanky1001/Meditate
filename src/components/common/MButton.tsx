@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingInline: 16,
     paddingBlock: 8,
+    borderRadius: 5,
   },
   capsule: {
     borderRadius: 50,

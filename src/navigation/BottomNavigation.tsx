@@ -3,7 +3,6 @@ import React from "react";
 import {BottomTabHeaderProps, createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import Statistics from "../screens/stats/Statistics";
 import Setting from "../screens/settings/Setting";
-import Icon from "react-native-vector-icons/MaterialIcons";
 import {DrawerActions} from "@react-navigation/native";
 import {ThemedText, ThemedView, useThemeColor} from "../theme/Themed";
 import Colors from "../constants/Colors";
