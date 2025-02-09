@@ -2,10 +2,11 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Meditation} from "../../constants/data/meditations";
 import {RootState} from "../store";
 import dayjs from "dayjs";
-import {useQuote} from "../../hooks/useQuote";
 
 export interface Activity {
-  duration: number;
+  [key: string]: {
+    duration: number;
+  };
 }
 interface Calendar {
   [key: string]: {
@@ -13,9 +14,7 @@ interface Calendar {
   };
 }
 export interface MeditationState {
-  activity: {
-    [key: string]: Activity;
-  };
+  activity: Activity;
   filepaths: string[];
   favorites: Meditation[];
   todayQuote: {
@@ -95,12 +94,16 @@ export const selectTodayQuote = (state: RootState) => state[name].todayQuote;
 
 export const selectCalendar = (state: RootState) => {
   const {activity} = state[name];
-  const calendar: Calendar = Object.keys(activity).reduce((acc: Calendar, act) => {
+  const calendar = computeCalendar(activity);
+  return calendar;
+};
+
+const computeCalendar = (activity: Activity) => {
+  return Object.keys(activity).reduce((acc: Calendar, act) => {
     const date = dayjs(parseInt(act, 10)).format("YYYY-MM-DD");
     acc[date] = {
       selected: true,
     };
     return acc;
   }, {});
-  return calendar;
 };

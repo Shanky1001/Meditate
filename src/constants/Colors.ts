@@ -8,6 +8,7 @@ const purples = {
 const grays = {
   white: "#FFFFFF", // rgb(255, 255, 255)
   gray100: "#F2F2F2", // rgb(242, 242, 242)
+  gray200: "#EEEEEE", // rgb(204, 201, 201)
   gray800: "#5D5D5D", // rgb(93, 93, 93)
   gray900: "#333333", // rgb(51, 51, 51)
   gray950: "#1e1e1e", //rgb(30, 30, 30)
@@ -36,6 +37,7 @@ export default {
     tabIconDefault: "#A1C6EA",
     ...purples,
     ...grays,
+    black: grays.white,
     white: grays.gray950,
     completedBackground: grays.gray900,
     completedPrimary: purples.purple500,
