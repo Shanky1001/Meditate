@@ -1,5 +1,7 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useState, useRef} from "react";
 import SoundPlayer, {SoundPlayerEventData} from "react-native-sound-player";
+import {useDispatch} from "react-redux";
+import {updateFavorites} from "../redux/slices/meditationSlice";
 
 export default function usePlayer({uri}: {uri: string}) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -12,8 +14,11 @@ export default function usePlayer({uri}: {uri: string}) {
   const [progress, setProgress] = useState(0);
 
   const [repeat, setRepeat] = useState(false);
+  // Ref to track if the component is mounted
+  const isMounted = useRef(true);
 
-  const play = useCallback(async () => {
+  // Memoized play function
+  const play = useCallback(() => {
     try {
       if (isPaused) {
         // Resume from paused state
@@ -33,34 +38,23 @@ export default function usePlayer({uri}: {uri: string}) {
       }
     } catch (error) {
       console.log("Error playing:", error);
-      // Reset states on error
       setIsPlaying(false);
       setIsPaused(false);
     }
   }, [isPaused, isLoaded, uri]);
 
+  // Memoized pause function
   const pause = useCallback(() => {
-    SoundPlayer.pause();
-    setIsPlaying(false);
-    setIsPaused(true);
-  }, []);
-
-  const loop = useCallback(() => {
-    setRepeat(prev => !prev);
-  }, []);
-
-  const forward = useCallback(async (seconds: number) => {
     try {
-      const info = await SoundPlayer.getInfo();
-      const newTime = Math.max(0, Math.min(info.duration, info.currentTime + seconds));
-      SoundPlayer.seek(newTime);
-      setCurrentTime(newTime);
-      setProgress(newTime / info.duration);
+      SoundPlayer.pause();
+      setIsPlaying(false);
+      setIsPaused(true);
     } catch (error) {
-      console.log("Error seeking:", error);
+      console.log("Error pausing:", error);
     }
   }, []);
 
+  // Memoized stop function
   const stop = useCallback(() => {
     try {
       SoundPlayer.stop();
@@ -74,27 +68,54 @@ export default function usePlayer({uri}: {uri: string}) {
     }
   }, []);
 
+  // Memoized loop function
+  const loop = useCallback(() => {
+    setRepeat(prev => !prev);
+  }, []);
+
+  // Memoized seek function
+  const forward = useCallback(async (seconds: number) => {
+    try {
+      const info = await SoundPlayer.getInfo();
+      const newTime = Math.max(0, Math.min(info.duration, info.currentTime + seconds));
+      await SoundPlayer.seek(newTime);
+      setCurrentTime(newTime);
+      setProgress(newTime / info.duration);
+    } catch (error) {
+      console.log("Error seeking:", error);
+    }
+  }, []);
+
+  // Load the track only once when the URI changes
   useEffect(() => {
-    // Initial load
-    const loadTrack = () => {
+    const loadAndPlayTrack = () => {
       try {
         SoundPlayer.loadUrl(uri);
         setIsLoaded(true);
         setIsMusicLoading(false);
-        play();
+        SoundPlayer.play();
+        setIsPlaying(true);
       } catch (error) {
         console.log("Error loading track:", error);
         setIsMusicLoading(false);
       }
     };
-    loadTrack();
 
-    const loadingListener = SoundPlayer.addEventListener("FinishedLoadingURL", (data: SoundPlayerEventData) => {
+    if (!isLoaded && isMounted.current) {
+      loadAndPlayTrack();
+    }
+  }, [uri, isLoaded]);
+
+  // Set up event listeners and time updates
+  useEffect(() => {
+    if (!isMounted.current) return;
+
+    const loadingListener = SoundPlayer.addEventListener("FinishedLoadingURL", () => {
       setIsMusicLoading(false);
       setIsLoaded(true);
     });
 
-    const finishedPlayingEvent = SoundPlayer.addEventListener("FinishedPlaying", (data: SoundPlayerEventData) => {
+    const finishedPlayingEvent = SoundPlayer.addEventListener("FinishedPlaying", () => {
       if (repeat && !isPaused) {
         // Small delay to prevent immediate replay
         setTimeout(() => {
@@ -105,7 +126,6 @@ export default function usePlayer({uri}: {uri: string}) {
       }
     });
 
-    // Add time update listener
     let timeInterval: NodeJS.Timeout;
     if (isPlaying) {
       timeInterval = setInterval(async () => {
@@ -124,9 +144,29 @@ export default function usePlayer({uri}: {uri: string}) {
       loadingListener.remove();
       finishedPlayingEvent.remove();
       if (timeInterval) clearInterval(timeInterval);
+    };
+  }, [isPlaying, isPaused, repeat, play, stop]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
       stop();
     };
-  }, [isPlaying, isPaused, repeat, play, stop, uri]);
+  }, [stop]);
 
-  return {isMusicLoading, isPlaying, progress, duration, currentTime, repeat, play, pause, loop, forward};
+  return {
+    isMusicLoading,
+    isPlaying,
+    isPaused,
+    repeat,
+    currentTime,
+    duration,
+    progress,
+    play,
+    pause,
+    stop,
+    loop,
+    forward,
+  };
 }

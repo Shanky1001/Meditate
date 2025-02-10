@@ -11,6 +11,8 @@ import NotFound from "../notFound/NotFound";
 import usePlayer from "../../hooks/usePlayer";
 import {ActivityIndicator} from "react-native-paper";
 import {formatTime} from "../../utils";
+import {useDispatch, useSelector} from "react-redux";
+import {selectFavorite, updateFavorites} from "../../redux/slices/meditationSlice";
 
 type PlayRouteProp = RouteProp<HomeParamList, "PlayScreen">;
 
@@ -20,17 +22,19 @@ interface PlayScreenProps {
   navigation: PlayNavProp;
 }
 
-const PlayScreen = ({route, navigation}: PlayScreenProps) => {
+const PlayScreen = ({route}: PlayScreenProps) => {
   const {id} = route.params;
   const Mediation = GetMeditationData().getMeditationDataById(id);
   const primary = useThemeColor({}, "primary");
   if (!Mediation) return <NotFound />;
   const {title, subtitle, image, uri} = Mediation;
   const {isPlaying, duration, currentTime, progress, isMusicLoading, repeat, forward, pause, play, loop} = usePlayer({uri});
-
-  useEffect(() => {
-    play();
-  }, []);
+  const dispatch = useDispatch();
+  const handleFav = () => {
+    dispatch(updateFavorites(Mediation));
+  };
+  const Favorites = useSelector(selectFavorite);
+  const isFav = Favorites.some(fav => fav.id === Mediation.id);
 
   if (isMusicLoading)
     return (
@@ -55,6 +59,8 @@ const PlayScreen = ({route, navigation}: PlayScreenProps) => {
         onReplay={() => forward(-10)}
         onRepeat={loop}
         forward={() => forward(10)}
+        onLike={handleFav}
+        isFav={isFav}
       />
     </ScreenWrapper>
   );

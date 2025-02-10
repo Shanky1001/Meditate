@@ -9,6 +9,8 @@ interface PlayerControlProps {
   isPlaying?: boolean;
   progress?: number;
   repeat?: boolean;
+  isFav?: boolean;
+
   onPause?: () => void;
   onPlay?: () => void;
   onReplay?: () => void;
@@ -27,6 +29,7 @@ export default function PlayerControl({
   isPlaying = false,
   progress = 0,
   repeat = false,
+  isFav,
   onPlay = defFunc,
   onPause,
   onReplay = defFunc,
@@ -78,7 +81,7 @@ export default function PlayerControl({
 
         {onLike ? (
           <TouchableOpacity onPress={onLike} style={styles.iconButton}>
-            <MIcon family="MaterialIcons" name="favorite-border" size={24} color={black} />
+            <MIcon family="MaterialIcons" name={isFav ? "favorite" : "favorite-border"} size={24} color={isFav ? "red" : black} />
           </TouchableOpacity>
         ) : null}
       </View>
@@ -132,7 +135,7 @@ const styles = StyleSheet.create({
   playButton: {
     width: 48,
     height: 48,
-    borderRadius: 24,
+    borderRadius: 22,
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "#000",
@@ -142,6 +145,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 3,
+    elevation: 1,
   },
 });
