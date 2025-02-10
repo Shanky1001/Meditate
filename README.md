@@ -80,3 +80,18 @@ Meditate is licensed under the MIT License. See the [LICENSE](LICENSE) file for 
 
 Start your journey to mindfulness and relaxation today with **Meditate**!
 
+
+## ScreenShots 
+
+![image](https://github.com/user-attachments/assets/e067bb3f-39b4-433c-a263-0e1a3ac3edaf)
+![image](https://github.com/user-attachments/assets/322d829d-951e-471e-9eae-df7cadd38339)
+![image](https://github.com/user-attachments/assets/e2d2fd5a-661c-4bd7-b2e8-8dc9f9adeb0d)
+![image](https://github.com/user-attachments/assets/10f78e83-34af-4518-821f-c361b54f1170)
+![image](https://github.com/user-attachments/assets/b72cd7d5-35a9-475f-b5a1-498e3124b659)
+![image](https://github.com/user-attachments/assets/7429448b-6e3d-40ca-93d9-e304d8b5e237)
+![image](https://github.com/user-attachments/assets/6a675042-c1a2-474d-af1b-3a0dfbc44960)
+
+
+
+
+
