@@ -5,10 +5,16 @@ interface DataContextInterface {
   popular: Meditation[];
   sleep: Meditation[];
   anxiety: Meditation[];
+  getMeditationDataById: (id: string) => Meditation | undefined;
 }
-const DataContext = createContext<DataContextInterface>({anxiety: [], popular: [], sleep: []});
+const DataContext = createContext<DataContextInterface>({anxiety: [], popular: [], sleep: [], getMeditationDataById: () => undefined});
 const ContextProvider = ({children}: {children: React.ReactElement}) => {
-  return <DataContext.Provider value={{popular, sleep, anxiety}}>{children}</DataContext.Provider>;
+  const getMeditationDataById = (id: string) => {
+    const meditation = [...popular, ...anxiety, ...sleep];
+    const med = meditation.find(m => m.id === id);
+    return med;
+  };
+  return <DataContext.Provider value={{popular, sleep, anxiety, getMeditationDataById}}>{children}</DataContext.Provider>;
 };
 
 export default ContextProvider;

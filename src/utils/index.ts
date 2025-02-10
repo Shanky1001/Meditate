@@ -19,3 +19,26 @@ export const openUrl = async (url: string) => {
     Alert.alert(`Don't know how to open this URL: ${url}`);
   }
 };
+
+export const memoize = (cb: (data: unknown) => unknown) => {
+  const cache: {
+    [key: string]: unknown;
+  } = {};
+  return (data: unknown) => {
+    const cacheKey = JSON.stringify(data);
+    if (cache[cacheKey]) {
+      console.log("from cache");
+      return cache[cacheKey];
+    }
+    const value = cb(data);
+    cache[cacheKey] = value;
+    return value;
+  };
+};
+
+// Format seconds to mm:ss
+export const formatTime = (seconds: number): string => {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+};

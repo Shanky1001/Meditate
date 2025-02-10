@@ -34,6 +34,7 @@ export default function BottomNavigation() {
         name={Screens.Root.Drawer.BottomNavigation.Home.index}
         component={HomeNavigator}
         options={{
+          // headerShown: false,
           tabBarIcon: ({color}) => <MIcon family="MaterialIcons" name="home" color={color} />,
         }}
       />
@@ -76,10 +77,19 @@ const HomeScreens = createStackNavigator<HomeParamList>();
 const HomeNavigator = () => {
   return (
     <ContextProvider>
-      <HomeScreens.Navigator screenOptions={{headerShown: false}}>
+      <HomeScreens.Navigator>
         <HomeScreens.Group>
-          <HomeScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Home.HomeScreen} component={HomeScreen} />
-          <HomeScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Home.PlayScreen} component={PlayScreen} />
+          <HomeScreens.Screen name={Screens.Root.Drawer.BottomNavigation.Home.HomeScreen} component={HomeScreen} options={{headerShown: false}} />
+          <HomeScreens.Screen
+            name={Screens.Root.Drawer.BottomNavigation.Home.PlayScreen}
+            component={PlayScreen}
+            options={{
+              headerShown: true,
+              gestureEnabled: true,
+              animation: "fade",
+              animationTypeForReplace: "pop",
+            }}
+          />
         </HomeScreens.Group>
       </HomeScreens.Navigator>
     </ContextProvider>

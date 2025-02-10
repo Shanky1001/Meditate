@@ -23,11 +23,23 @@ export default function HomeScreen({navigation}: HomeProps) {
     });
   };
   const renderCard = ({item}: MeditationItem) => {
-    const isFav = Favorites.some(fav => fav.id === item.id);
-    return <MCard item={item} isFav={isFav} onPress={() => handlePress(item)} />;
+    return <MCard item={item} onPress={() => handlePress(item)} />;
   };
   return (
     <ScreenWrapper scroll>
+      {Favorites.length > 0 && (
+        <>
+          <ThemedText style={styles.title}>Favorites</ThemedText>
+          <FlatList
+            style={styles.cards}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={Favorites}
+            renderItem={renderCard}
+            keyExtractor={({id}) => id}
+          />
+        </>
+      )}
       <ThemedText style={styles.title}>POPULAR</ThemedText>
       <FlatList
         style={styles.cards}
@@ -55,19 +67,6 @@ export default function HomeScreen({navigation}: HomeProps) {
         renderItem={renderCard}
         keyExtractor={({id}) => id}
       />
-      {Favorites.length > 0 && (
-        <>
-          <ThemedText style={styles.title}>Favorites</ThemedText>
-          <FlatList
-            style={styles.cards}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={Favorites}
-            renderItem={renderCard}
-            keyExtractor={({id}) => id}
-          />
-        </>
-      )}
     </ScreenWrapper>
   );
 }
@@ -77,6 +76,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 19,
+    textTransform: "uppercase",
   },
   cards: {
     marginBottom: 20,
