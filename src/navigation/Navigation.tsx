@@ -8,6 +8,20 @@ import {useQuote} from "../hooks/useQuote";
 import {useDispatch} from "react-redux";
 import {updateTodayQuote} from "../redux/slices/meditationSlice";
 
+const linking = {
+  prefixes: ["buopso.lms://screens"],
+  config: {
+    screens: {
+      assetDetail: {
+        path: "assetDetail",
+        parse: {
+          leadId: (id: string) => `${id}`,
+          pipelineId: (id: string) => `${id}`,
+        },
+      },
+    },
+  },
+};
 export default function Navigation() {
   const [theme, setTheme] = useState(DefaultTheme);
   const {activeTheme, isLoading: themeLoading} = useColorScheme();
